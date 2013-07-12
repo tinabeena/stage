@@ -1,0 +1,61 @@
+<?php
+
+function tufts_form_alter(&$form, &$form_state, $form_id)
+{
+    global $base_url;
+    /*
+    echo "<pre>";
+    print_r($form);
+    echo "</pre>";
+    */
+//            echo "<pre>";
+  //          print_r($form);
+    //        echo "</pre>";
+    switch($form['#form_id'])
+    {
+        case 'search_block_form':
+        {
+            $form['actions']['submit']['#value'] = "Go"; 
+            break;
+        }
+            
+        case 'views_exposed_form':
+            switch($form['#id'])
+            {
+                /*
+                case 'views-exposed-form-services-filter-block-1':
+                    unset($form['field_available_schools_divs_tid']['#options'][0]);
+                    unset($form['field_available_to_limited_affil_tid']['#options'][0]);
+                    $form['#action'] = $base_url . "/services";
+                    break;
+                    */
+            }
+            break;
+
+        case 'search-form':
+        {
+            echo "SEARCH FORM GOT HERE";
+            break;
+        }
+    }
+}
+
+function tufts_breadcrumb($variables)
+{
+    $breadcrumb = $variables['breadcrumb'];
+    if (!empty($breadcrumb))
+    {
+        $output = '';
+        foreach ($variables['breadcrumb'] as $id =>$item)
+        {
+            if (substr($item, 0, 24) == '<span class="separator">')
+            {
+                unset($breadcrumb[$id]);
+            }
+        }
+        $output .= '<div class="breadcrumb">' . implode(' > ', $breadcrumb) . '</div>';
+        return $output;
+    }
+}
+
+?>

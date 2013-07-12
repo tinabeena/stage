@@ -1,0 +1,4 @@
+name = tufts
+description = Core module for tufts modifications
+core = 7.x
+package = "tufts"

@@ -1,0 +1,102 @@
+@mixin background-size($args){
+	-moz-background-size: 	$args;
+	-o-background-size: 	$args;
+	-webkit-background-size:$args;
+	background-size: 		$args;
+}//->@include background-size(contain) or (100% 20%);
+
+@mixin border-image($args){
+	-moz-border-image: 		$args;
+	-webkit-border-image: 	$args;
+	-o-border-image: 		$args;
+	border-image: 			$args;
+}//-> @include border-image( url(http://www.w3.org/TR/css3-background/border.png) 5 10 15 20 repeat round );
+
+@mixin border-radius($args){
+	-moz-border-radius: 	$args;
+	-webkit-border-radius:	$args;
+	border-radius:	 		$args;
+}//-> @include box-shadow(0px 0px 5px 5px rgba(0,0,0,0.5));
+
+@mixin box-shadow($args){
+	-moz-box-shadow: 	$args;
+	-webkit-box-shadow: $args;
+	box-shadow: 		$args;
+}//-> @include box-shadow(0px 0px 5px 5px rgba(0,0,0,0.5));
+
+@mixin flexbox-parent($orient:horizontal, $pack:start, $align:stretch){
+	display: -webkit-box;
+	-webkit-box-orient: $orient;
+	-webkit-box-pack: 	$pack;
+	-webkit-box-align: 	$align;
+
+	display: -moz-box;
+	-moz-box-orient: 	$orient;
+	-moz-box-pack: 		$pack;
+	-moz-box-align: 	$align;
+
+	display: -o-box;
+	-o-box-orient: 	$orient;
+	-o-box-pack: 	$pack;
+	-o-box-align: 	$align;
+	
+	display: box;
+	box-orient: $orient;
+	box-pack: 	$pack;
+	box-align: 	$align;
+}//->@include flexbox-parent($orient:horizontal, $pack:center, $align:center);
+
+@mixin flexbox-child($proportion){
+	-webkit-box-flex: 	$proportion;
+	-moz-box-flex: 		$proportion;
+	-o-box-flex: 		$proportion;
+	box-flex: 			$proportion;
+}//->@include flexbox-child(1);
+
+
+@mixin linear-gradient($filter-, $start, $stop, $start-point:top ){
+	background-image:          linear-gradient($start-point, $start, $stop);
+	background-image:      -o-linear-gradient( $start-point, $start, $stop);
+	background-image:    -moz-linear-gradient( $start-point, $start, $stop);
+	background-image: -webkit-linear-gradient( $start-point, $start, $stop);
+	background-image:     -ms-linear-gradient( $start-point, $start, $stop);
+}//-> @include linear-gradient(#000 2%, #fff 57%, bottom);
+
+
+
+
+
+//convert px units to rem, and generate px fall back.
+@mixin rem($key, $values) {
+	//https://gist.github.com/1134548/d371c9604458456e2aca0e76ccce1d360f50bd4f
+	// If the html element's font-size is set to 62.5% (of the browser's default 16px), then baseline is 10px.
+	$baseline_px: 10px;
+	
+	// Convert the baseline into rems
+	$baseline_rem: ($baseline_px / 1rem);
+
+	// Print the first line in pixel values
+	#{$key}: $values;
+
+	// If there is only one (numeric) value, return the property/value line for it.
+	@if type-of($values) == 'number' {
+		#{$key}: $values / $baseline_rem;
+	}
+	// If there is more than one value, create a list and perform equations on each value
+	@else {
+		// Create an empty list that we can dump values into
+		$remlist: ();
+		@each $value in $values {
+			// If the value is zero, return 0
+			@if $value == 0 { 
+				$remlist: append($remlist, $value); 
+			}
+			// If the value is not zero, convert it from px to rem
+			@else {
+				$remlist: append($remlist, ($value / $baseline_rem) );
+			}
+		}
+		// Return the property and its list of converted values
+		#{$key}: $remlist;
+	}
+}//-> @include rem('padding', 10px 0 20px); Outputs[ padding: 10px 0 2px 5px; padding: 1rem 0 0.2rem 0.5rem; ]

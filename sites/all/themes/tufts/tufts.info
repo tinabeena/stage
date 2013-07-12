@@ -1,0 +1,14 @@
+name = Tufts
+description = Theme for the Tufts IT website.
+core = 7.x
+
+
+regions[headertop] = Header Top
+regions[header] = Header
+regions[highlighted] = Highlighted
+regions[help] = Help
+regions[abovecontent] = Above Content
+regions[content] = Content
+regions[sidebar_first] = Left sidebar
+regions[sidebar_second] = Right sidebar
+regions[footer] = Footer
